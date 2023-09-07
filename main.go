@@ -16,7 +16,8 @@ import (
 func main() {
 	e := echo.New()
 	e.GET("/accounts", func(c echo.Context) error {
-		conn, err := grpc.Dial("localhost:45999", grpc.WithTransportCredentials(insecure.NewCredentials()))
+		grpcServerAddr := fmt.Sprintf("%s:%s", os.Getenv("GRPC_SERVER_HOST"), os.Getenv("GRPC_SERVER_PORT"))
+		conn, err := grpc.Dial(grpcServerAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 		if err != nil {
 			e.Logger.Fatalf("can't connect to grpc server: %v", err)
 		}
